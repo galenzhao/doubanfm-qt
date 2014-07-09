@@ -84,6 +84,10 @@ private:
 
     time_t lastPausedTime;
     qint32 _kbps;
+
+    // save mp3 file
+    bool saveMp3FileFromSong(DoubanFMSong & song);
+    bool saveID3ForSong(DoubanFMSong & song);
 };
 
 #endif // DOUBANPLAYER_H

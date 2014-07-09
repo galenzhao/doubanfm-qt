@@ -4,6 +4,9 @@
 #
 #-------------------------------------------------
 
+# zlib
+LIBS += -lz
+
 QT       += core gui network multimedia xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -108,3 +111,10 @@ win32 {
 macx {
     ICON = QDoubanFM.icns
 }
+
+macx: LIBS += -L$$PWD/../taglib-build/taglib/Debug/ -ltag
+
+INCLUDEPATH += $$PWD/../taglib/taglib
+DEPENDPATH += $$PWD/../taglib/taglib
+
+macx: PRE_TARGETDEPS += $$PWD/../taglib-build/taglib/Debug/libtag.a

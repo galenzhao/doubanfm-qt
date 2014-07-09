@@ -1,4 +1,6 @@
 #include "doubanplayer.h"
+#include "tag.h"
+#include "fileref.h"
 
 DoubanPlayer& DoubanPlayer::getInstance() {
     static DoubanPlayer _instance(nullptr);
@@ -120,6 +122,7 @@ void DoubanPlayer::currentIndexChanged(int position) {
     }
     emit this->currentSongChanged(songs[position]);
 
+    DoubanFMSong song = songs[position];
     qDebug() << "CurrentPlaying: ";
     qDebug() << "    artist: " << songs[position].artist;
     qDebug() << "    title: " << songs[position].title;
@@ -130,6 +133,25 @@ void DoubanPlayer::currentIndexChanged(int position) {
     qDebug() << "    like: " << songs[position].like;
     qDebug() << "    sid: " << songs[position].sid;
     qDebug() << "    subType: " << songs[position].subtype;
+
+    // todo save songs
+    bool flag = saveMp3FileFromSong(songs[position]);
+    if (flag) {
+        bool result = saveID3ForSong(songs[position]);
+        if (result) {
+
+        }
+    }
+}
+bool DoubanPlayer::saveMp3FileFromSong(DoubanFMSong &song) {
+    return true;
+}
+bool DoubanPlayer::saveID3ForSong(DoubanFMSong &song) {
+    TagLib::FileRef f("Latex Solar Beef.mp3");
+    TagLib::String artist = f.tag()->artist(); // artist == "Frank Zappa"
+    f.tag()->setAlbum("Fillmore East");
+    f.save();
+    return true;
 }
 
 bool DoubanPlayer::canControl() const {
