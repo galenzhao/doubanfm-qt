@@ -95,7 +95,18 @@ MainWidget::MainWidget(QWidget *parent) :
         systemTrayIcon->show();
     }
 #endif
-
+    connect(&DoubanPlayer::getInstance(), SIGNAL(canSaveMp3File(bool)), this, SLOT(onCanSaveMp3FileChanged(bool)));
+    connect(&DoubanPlayer::getInstance(), SIGNAL(saveSong(DoubanFMSong,bool,QString)), this, SLOT(onSaveSong(DoubanFMSong,bool,QString)));
+}
+void MainWidget::onCanSaveMp3FileChanged(bool flag)
+{
+    setWindowTitle(flag?"saving function was enabled":"saving function was disabled");
+}
+void MainWidget::onSaveSong(const DoubanFMSong &song, bool flag, const QString &message)
+{
+    QString title = QString("saving: ").append(song.title).append(" ").append(flag?"succeed. ":"failed. ").append(message);
+    //setWindowTitle(flag?"":"");
+    setWindowTitle(title);
 }
 
 MainWidget::~MainWidget()

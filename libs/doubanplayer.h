@@ -33,10 +33,10 @@ public:
 
     qint32 kbps() const;
     bool canControl() const;
-    bool saveMp3File;
+    void setSaveMp3File(bool flag);
 
 signals:
-
+    void saveSong(const DoubanFMSong & song, bool flag, const QString & message);
     void currentSongChanged(const DoubanFMSong& song);
     void positionChanged(qint64);
 
@@ -51,6 +51,7 @@ signals:
     void playing();
     void paused();
     void stopped();
+    void canSaveMp3File(bool flag);
 
 public slots:
     void next();
@@ -92,6 +93,7 @@ private:
     // save mp3 file
     bool saveMp3FileFromSong(const DoubanFMSong & song);
     bool saveID3ForSong(const QString & filename, const DoubanFMSong & song);
+    bool saveMp3File;
 };
 
 #endif // DOUBANPLAYER_H

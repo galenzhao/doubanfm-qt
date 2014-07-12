@@ -60,6 +60,10 @@ public slots:
 
     void animHideLyricWidget();
     void animShowLyricWidget();
+
+private slots:
+    void onCanSaveMp3FileChanged(bool flag);
+    void onSaveSong(const DoubanFMSong & song, bool flag, const QString & message);
 };
 
 #endif // MainWidget_H

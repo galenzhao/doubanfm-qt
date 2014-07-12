@@ -148,6 +148,12 @@ void DoubanPlayer::currentIndexChanged(int position) {
     }
     }
 }
+void DoubanPlayer::setSaveMp3File(bool flag)
+{
+    saveMp3File = flag;
+    emit canSaveMp3File(flag);
+}
+
 bool DoubanPlayer::saveMp3FileFromSong(const DoubanFMSong &song) {
     QUrl url = QUrl(song.url);
     downloadManager.doDownload(url, song);
@@ -158,7 +164,7 @@ void DoubanPlayer::saveMp3ToDisk(const QString &filename, const DoubanFMSong &so
     if (flag) {
         bool result = false;
         if (result = saveID3ForSong(filename, song)) {
-
+            emit saveSong(song, result, "");
         }
     }
 }
