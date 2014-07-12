@@ -305,3 +305,8 @@ void ControlPanel::on_lyricButton_clicked(bool checked)
     else
         emit closeLyricPanel();
 }
+
+void ControlPanel::on_checkBox_clicked()
+{
+    DoubanPlayer::getInstance().saveMp3File = ui->checkBox->isChecked();
+}

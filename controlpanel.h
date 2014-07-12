@@ -67,6 +67,7 @@ private slots:
     void setAlbumName(const QString &name);
     void on_settingButton_clicked();
     void on_lyricButton_clicked(bool checked);
+    void on_checkBox_clicked();
 };
 
 #endif // CONTROLPANEL_H

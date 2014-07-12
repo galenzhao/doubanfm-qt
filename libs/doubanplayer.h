@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <ctime>
+#include "downloadmanager.h"
 
 class DoubanPlayer : public QObject
 {
@@ -32,6 +33,7 @@ public:
 
     qint32 kbps() const;
     bool canControl() const;
+    bool saveMp3File;
 
 signals:
 
@@ -68,6 +70,7 @@ public slots:
 
 private slots:
     void currentIndexChanged(int position);
+    void saveMp3ToDisk(const QString & filename, const DoubanFMSong & song, bool flag);
 
 private:
     explicit DoubanPlayer(QObject *parent = 0);
@@ -85,9 +88,10 @@ private:
     time_t lastPausedTime;
     qint32 _kbps;
 
+    DownloadManager downloadManager;
     // save mp3 file
-    bool saveMp3FileFromSong(DoubanFMSong & song);
-    bool saveID3ForSong(DoubanFMSong & song);
+    bool saveMp3FileFromSong(const DoubanFMSong & song);
+    bool saveID3ForSong(const QString & filename, const DoubanFMSong & song);
 };
 
 #endif // DOUBANPLAYER_H

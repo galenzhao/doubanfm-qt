@@ -64,6 +64,9 @@ DoubanPlayer::DoubanPlayer(QObject *parent) :
         setCanControl(true);
     });
     connect(&player, &QMediaPlayer::stateChanged, [this] (QMediaPlayer::State s) { emit this->stateChanged(s); });
+
+    // connect save file
+    connect(&downloadManager, SIGNAL(saveMp3ToDisk(QString,DoubanFMSong,bool)), this, SLOT(saveMp3ToDisk(QString,DoubanFMSong,bool)));
 }
 
 DoubanPlayer::~DoubanPlayer() {
@@ -135,21 +138,44 @@ void DoubanPlayer::currentIndexChanged(int position) {
     qDebug() << "    subType: " << songs[position].subtype;
 
     // todo save songs
+    if (saveMp3File) {
     bool flag = saveMp3FileFromSong(songs[position]);
     if (flag) {
-        bool result = saveID3ForSong(songs[position]);
-        if (result) {
+        //bool result = saveID3ForSong(songs[position]);
+        //if (result) {
+        //
+        //}
+    }
+    }
+}
+bool DoubanPlayer::saveMp3FileFromSong(const DoubanFMSong &song) {
+    QUrl url = QUrl(song.url);
+    downloadManager.doDownload(url, song);
+
+    return true;
+}
+void DoubanPlayer::saveMp3ToDisk(const QString &filename, const DoubanFMSong &song, bool flag) {
+    if (flag) {
+        bool result = false;
+        if (result = saveID3ForSong(filename, song)) {
 
         }
     }
 }
-bool DoubanPlayer::saveMp3FileFromSong(DoubanFMSong &song) {
-    return true;
-}
-bool DoubanPlayer::saveID3ForSong(DoubanFMSong &song) {
-    TagLib::FileRef f("Latex Solar Beef.mp3");
-    TagLib::String artist = f.tag()->artist(); // artist == "Frank Zappa"
-    f.tag()->setAlbum("Fillmore East");
+
+bool DoubanPlayer::saveID3ForSong(const QString &filename, const DoubanFMSong &song) {
+    TagLib::FileRef f(filename.toStdString().c_str());
+    //TagLib::String artist = f.tag()->artist(); // artist == "Frank Zappa"
+    //f.tag()->setAlbum("Fillmore East");
+    f.tag()->setAlbum(song.albumtitle.toStdString());
+    f.tag()->setArtist(song.artist.toStdString());
+    //f.tag()->setComment();
+    //f.tag()->setGenre();
+    //f.tag()->setProperties();
+    f.tag()->setTitle(song.title.toStdString());
+    //f.tag()->setTrack();
+    f.tag()->setYear(song.public_time.toUInt());
+
     f.save();
     return true;
 }
