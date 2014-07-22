@@ -137,6 +137,8 @@ void DoubanPlayer::currentIndexChanged(int position) {
     qDebug() << "    sid: " << songs[position].sid;
     qDebug() << "    subType: " << songs[position].subtype;
 
+    emit playNextSong(song);
+
     // todo save songs
     if (saveMp3File) {
     bool flag = saveMp3FileFromSong(songs[position]);

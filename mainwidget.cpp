@@ -97,7 +97,14 @@ MainWidget::MainWidget(QWidget *parent) :
 #endif
     connect(&DoubanPlayer::getInstance(), SIGNAL(canSaveMp3File(bool)), this, SLOT(onCanSaveMp3FileChanged(bool)));
     connect(&DoubanPlayer::getInstance(), SIGNAL(saveSong(DoubanFMSong,bool,QString)), this, SLOT(onSaveSong(DoubanFMSong,bool,QString)));
+    connect(&DoubanPlayer::getInstance(), SIGNAL(playNextSong(DoubanFMSong)), this, SLOT(onPlayNextSong(DoubanFMSong)));
 }
+void MainWidget::onPlayNextSong(const DoubanFMSong &song)
+{
+    QString message = QString("playing: ").append(song.artist).append(",").append(song.albumtitle).append(",").append(song.title);
+    systemTrayIcon->showMessage("play next", message);
+}
+
 void MainWidget::onCanSaveMp3FileChanged(bool flag)
 {
     setWindowTitle(flag?"saving function was enabled":"saving function was disabled");
@@ -107,6 +114,8 @@ void MainWidget::onSaveSong(const DoubanFMSong &song, bool flag, const QString &
     QString title = QString("saving: ").append(song.title).append(" ").append(flag?"succeed. ":"failed. ").append(message);
     //setWindowTitle(flag?"":"");
     setWindowTitle(title);
+
+    systemTrayIcon->showMessage("saving new mp3 file", title);
 }
 
 MainWidget::~MainWidget()

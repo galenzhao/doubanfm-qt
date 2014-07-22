@@ -52,6 +52,7 @@ signals:
     void paused();
     void stopped();
     void canSaveMp3File(bool flag);
+    void playNextSong(const DoubanFMSong & song);
 
 public slots:
     void next();

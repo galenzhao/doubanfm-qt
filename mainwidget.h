@@ -64,6 +64,7 @@ public slots:
 private slots:
     void onCanSaveMp3FileChanged(bool flag);
     void onSaveSong(const DoubanFMSong & song, bool flag, const QString & message);
+    void onPlayNextSong(const DoubanFMSong & song);
 };
 
 #endif // MainWidget_H
